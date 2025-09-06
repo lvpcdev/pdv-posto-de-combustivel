@@ -19,6 +19,14 @@
 
 1.2 - Requisitos  Funcionais
     1.2.1 - Cadastro de frentistas
+        1.2.1.1 - Acesso
+            1.2.1.1.1 - usuario
+            1.2.1.1.2 - senha
+        1.2.1.2 - Contato
+            1.2.1.2.1 - telefone
+            1.2.1.2.2 - emial
+            1.2.1.2.3 - endereco
+        1.2.1.3 -  Pessoa
     1.2.2 - Cadastro de produtos
     1.2.3 - Gestão de compras
     1.2.4 - Gestão de recursos
