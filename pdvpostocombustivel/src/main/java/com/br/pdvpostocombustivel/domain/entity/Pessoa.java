@@ -1,4 +1,4 @@
-package com.br.domain.entity;
+package com.br.pdvpostocombustivel.domain.entity;
 import java.util.Date;
 
 public class Pessoa {
@@ -7,14 +7,18 @@ public class Pessoa {
     private String nomeCompleto;
     private String cpfCnpj;
     private Date dataNascimento;
-    private Integer numeroCtps;
+    private Long numeroCtps;
 
     //construtor
-    public Pessoa(String nomeCompleto, String cpfCnpj, Date dataNascimento, Integer numeroCtps) {
+    public Pessoa(String nomeCompleto, String cpfCnpj, Date dataNascimento, Long numeroCtps) {
         this.nomeCompleto =  nomeCompleto;
         this.cpfCnpj = cpfCnpj;
         this.dataNascimento = dataNascimento;
         this.numeroCtps = numeroCtps;
+    }
+
+    public Pessoa() {
+
     }
 
     //getters
@@ -27,7 +31,7 @@ public class Pessoa {
     public Date getDataNascimento() {
         return dataNascimento;
     }
-    public Integer getNumeroCtps() {
+    public Long getNumeroCtps() {
         return numeroCtps;
     }
 
@@ -41,7 +45,7 @@ public class Pessoa {
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-    public void setNumeroCtps(Integer numeroCtps) {
+    public void setNumeroCtps(Long numeroCtps) {
         this.numeroCtps = numeroCtps;
     }
 }
