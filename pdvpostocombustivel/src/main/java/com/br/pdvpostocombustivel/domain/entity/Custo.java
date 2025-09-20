@@ -1,17 +1,33 @@
 package com.br.pdvpostocombustivel.domain.entity;
-import java.util.Date;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "custo")
 public class Custo {
 
     //atributos
+
+    @Column(length = 5, nullable = false)
     private Double imposto;
+
+    @Column(length = 10, nullable = false)
     private Double custoVariavel;
+
+    @Column(length = 10, nullable = false)
     private Double custoFixo;
+
+    @Column(length = 5, nullable = false)
     private Double margemLucro;
-    private Date dataProcessamento;
+
+    @Column(length = 10, nullable = false)
+    private LocalDate dataProcessamento;
 
     //construtor
-    public Custo(Double imposto, Double custoVariavel, Double custoFixo, Double margemLucro, Date dataProcessamento) {
+    public Custo(Double imposto, Double custoVariavel, Double custoFixo, Double margemLucro, LocalDate dataProcessamento) {
         this.imposto = imposto;
         this.custoVariavel = custoVariavel;
         this.custoFixo = custoFixo;
@@ -23,7 +39,7 @@ public class Custo {
     public Double getCustoFixo() {
         return custoFixo;
     }
-    public Date getDataProcessamento() {
+    public LocalDate getDataProcessamento() {
         return dataProcessamento;
     }
     public Double getCustoVariavel() {
@@ -43,7 +59,7 @@ public class Custo {
     public void setCustoVariavel(Double custoVariavel) {
         this.custoVariavel = custoVariavel;
     }
-    public void setDataProcessamento(Date dataProcessamento) {
+    public void setDataProcessamento(LocalDate dataProcessamento) {
         this.dataProcessamento = dataProcessamento;
     }
     public void setImposto(Double imposto) {

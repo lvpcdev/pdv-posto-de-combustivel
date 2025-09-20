@@ -1,18 +1,35 @@
 package com.br.pdvpostocombustivel.domain.entity;
-import java.math.BigDecimal;
-import java.util.Date;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import org.springframework.cglib.core.Local;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "estoque")
 public class Estoque {
 
     //atributos
+
+    @Column(length = 10, nullable = false)
     private BigDecimal quantidade;
+
+    @Column(length = 50, nullable = false)
     private String localTanque;
+
+    @Column(length = 100, nullable = false)
     private String localEndereco;
+
+    @Column(length = 10, nullable = false)
     private String loteFabricacao;
-    private Date dataValidade;
+
+    @Column(length = 10, nullable = false)
+    private LocalDate dataValidade;
 
     //construtor
-    public  Estoque(BigDecimal quantidade, String localTanque, String localEndereco, String loteFabricacao,Date dataValidade) {
+    public  Estoque(BigDecimal quantidade, String localTanque, String localEndereco, String loteFabricacao,LocalDate dataValidade) {
         this.quantidade = quantidade;
         this.localTanque = localTanque;
         this.localEndereco = localEndereco;
@@ -33,12 +50,12 @@ public class Estoque {
     public String getLoteFabricacao() {
         return loteFabricacao;
     }
-    public Date getDataValidade(){
+    public LocalDate getDataValidade(){
         return dataValidade;
     }
 
     //setters
-    public void setDataValidade(Date dataValidade) {
+    public void setDataValidade(LocalDate dataValidade) {
         this.dataValidade = dataValidade;
     }
     public void setLocalEndereco(String localEndereco) {

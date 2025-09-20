@@ -1,4 +1,5 @@
 package com.br.pdvpostocombustivel.domain.entity;
+import com.br.pdvpostocombustivel.enums.TipoPessoa;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -8,36 +9,50 @@ import java.time.LocalDate;
 @Table(name = "pessoa")
 public class Pessoa {
 
+
+
     //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200, nullable = false)
+    @Column(name = "nome_completo", length = 200, nullable = false)
     private String nomeCompleto;
 
-    @Column(length = 14, nullable = false)
+    @Column(name = "cpf_cnpj", length = 14, nullable = false)
     private String cpfCnpj;
 
-    @Column(length = 12)
+    @Column(name = "numero_ctps", length = 12)
     private Long numeroCtps;
 
-    @Column(length = 10, nullable = false)
+    @Column(name = "data_nascimento", length = 10, nullable = false)
     private LocalDate dataNascimento;
 
+    public Pessoa( String nomeCompleto,
+                   String cpfCnpj,
+                   Long numeroCtps,
+                   LocalDate dataNascimento,
+                   TipoPessoa tipoPessoa) {
 
-    //construtor
-    public Pessoa(String nomeCompleto, String cpfCnpj, LocalDate dataNascimento, Long numeroCtps, Long id) {
-        this.nomeCompleto =  nomeCompleto;
+        this.nomeCompleto = nomeCompleto;
         this.cpfCnpj = cpfCnpj;
-        this.dataNascimento = dataNascimento;
         this.numeroCtps = numeroCtps;
-        this.id = id;
+        this.dataNascimento = dataNascimento;
+        this.tipoPessoa = tipoPessoa;
     }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_pessoa", length = 15, nullable = false)
+    private TipoPessoa tipoPessoa;
+
+
+
 
     public Pessoa() {
 
     }
+
+
 
     //getters
     public String getNomeCompleto() {
@@ -55,6 +70,9 @@ public class Pessoa {
     public Long getId() {
         return id;
     }
+    public TipoPessoa getTipoPessoa() {
+        return tipoPessoa;
+    }
 
     //setters
     public void setNomeCompleto(String nomeCompleto) {
@@ -71,5 +89,8 @@ public class Pessoa {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public void setTipoPessoa(TipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
     }
 }
