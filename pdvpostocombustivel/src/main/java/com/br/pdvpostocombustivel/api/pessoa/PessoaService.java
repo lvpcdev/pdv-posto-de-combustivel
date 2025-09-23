@@ -118,8 +118,7 @@ public class PessoaService {
                 p.getNomeCompleto(),
                 p.getCpfCnpj(),
                 p.getNumeroCtps(),
-                p.getDataNascimento(),
-                p.getTipoPessoa()
+                p.getDataNascimento()
         );
     }
 }
