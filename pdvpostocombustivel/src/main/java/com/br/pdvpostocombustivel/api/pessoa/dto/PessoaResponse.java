@@ -4,13 +4,10 @@ import com.br.pdvpostocombustivel.enums.TipoPessoa;
 
 import java.time.LocalDate;
 
-// Para Resposta
+// Para resposta
 public record PessoaResponse(
-        Long id,
         String nomeCompleto,
         String cpfCnpj,
         Long numeroCtps,
         LocalDate dataNascimento
-) {
-
-}
+){}
