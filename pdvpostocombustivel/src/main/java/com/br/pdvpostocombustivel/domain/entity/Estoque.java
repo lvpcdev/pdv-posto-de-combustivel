@@ -1,8 +1,10 @@
 package com.br.pdvpostocombustivel.domain.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +12,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "estoque")
 public class Estoque {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     //atributos
 
@@ -29,6 +35,9 @@ public class Estoque {
     private LocalDate dataValidade;
 
     //construtor
+    public Estoque() {
+    }
+    
     public  Estoque(BigDecimal quantidade, String localTanque, String localEndereco, String loteFabricacao,LocalDate dataValidade) {
         this.quantidade = quantidade;
         this.localTanque = localTanque;
@@ -38,6 +47,10 @@ public class Estoque {
     }
 
     //getters
+    public Long getId() {
+        return id;
+    }
+
     public BigDecimal getQuantidade() {
         return quantidade;
     }

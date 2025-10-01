@@ -2,11 +2,18 @@ package com.br.pdvpostocombustivel.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "contato")
 public class Contato {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     //atributos
 
@@ -21,6 +28,9 @@ public class Contato {
 
 
     //construtor
+    public Contato() {
+    }
+
     public Contato(String telefone, String email, String endereco) {
         this.telefone = telefone;
         this.email = email;
@@ -28,6 +38,10 @@ public class Contato {
     }
 
     //getters
+    public Long getId() {
+        return id;
+    }
+
     public String getTelefone() {
         return telefone;
     }
@@ -48,6 +62,4 @@ public class Contato {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-
-
 }

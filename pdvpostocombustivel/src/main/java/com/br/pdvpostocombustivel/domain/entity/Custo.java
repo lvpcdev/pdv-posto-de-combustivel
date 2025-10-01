@@ -1,6 +1,9 @@
 package com.br.pdvpostocombustivel.domain.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
@@ -8,6 +11,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "custo")
 public class Custo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     //atributos
 
@@ -27,6 +34,9 @@ public class Custo {
     private LocalDate dataProcessamento;
 
     //construtor
+    public Custo() {
+    }
+    
     public Custo(Double imposto, Double custoVariavel, Double custoFixo, Double margemLucro, LocalDate dataProcessamento) {
         this.imposto = imposto;
         this.custoVariavel = custoVariavel;
@@ -36,6 +46,10 @@ public class Custo {
     }
 
     //getters
+    public Long getId() {
+        return id;
+    }
+    
     public Double getCustoFixo() {
         return custoFixo;
     }
