@@ -2,8 +2,7 @@ package com.br.pdvpostocombustivel.enums;
 
 public enum TipoProduto {
     COMBUSTIVEL("Produto Combustível"),
-    LUBRIFICANTE("Produto Lubrificante"),
-    CONVENIENCIA("Produto Conveniência");
+    LUBRIFICANTE("Produto Lubrificante");
 
     private final String descricao;
 

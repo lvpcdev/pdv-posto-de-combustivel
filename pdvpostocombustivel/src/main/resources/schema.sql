@@ -6,3 +6,9 @@ CREATE TABLE IF NOT EXISTS pessoas (
     numero_ctps BIGINT,
     data_nascimento DATE
     );
+
+CREATE TABLE IF NOT EXISTS Acessos (
+                                       id BIGSERIAL PRIMARY KEY,
+                                       senha VARCHAR(15) NOT NULL,
+    usuario VARCHAR(30) NOT NULL UNIQUE
+    );

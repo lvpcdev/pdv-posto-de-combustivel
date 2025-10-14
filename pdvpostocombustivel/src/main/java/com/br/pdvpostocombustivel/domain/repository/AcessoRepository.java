@@ -1,4 +1,16 @@
 package com.br.pdvpostocombustivel.domain.repository;
 
-public interface AcessoRepository {
+import com.br.pdvpostocombustivel.domain.entity.Acesso;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface AcessoRepository extends JpaRepository<Acesso, Long> {
+    Optional<Acesso> findByUsuario(String usuario);
+
+    Optional<Acesso> findBySenha(String senha);
+
+    boolean existsByUsuario(String usuario);
+
+    boolean existsBySenha(String senha);
 }

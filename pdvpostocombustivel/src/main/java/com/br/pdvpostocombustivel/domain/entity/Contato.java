@@ -1,11 +1,9 @@
 package com.br.pdvpostocombustivel.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.br.pdvpostocombustivel.enums.TipoAcesso;
+import com.br.pdvpostocombustivel.enums.TipoContato;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "contato")
@@ -26,15 +24,21 @@ public class Contato {
     @Column (length = 100, nullable = false)
     private String endereco;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_contato", nullable = false, length = 30)
+    private TipoContato tipoContato;
+
 
     //construtor
     public Contato() {
     }
 
-    public Contato(String telefone, String email, String endereco) {
+    public Contato(String telefone, String email, String endereco, TipoContato tipoContato) {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
+        this.tipoContato = tipoContato;
     }
 
     //getters
@@ -51,6 +55,9 @@ public class Contato {
     public String getEndereco() {
         return endereco;
     }
+    public TipoContato getTipoContato() {
+        return tipoContato;
+    }
 
     //setters
     public void setTelefone(String telefone) {
@@ -61,5 +68,8 @@ public class Contato {
     }
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+    public void setTipoContato(TipoContato tipoContato) {
+        this.tipoContato = tipoContato;
     }
 }

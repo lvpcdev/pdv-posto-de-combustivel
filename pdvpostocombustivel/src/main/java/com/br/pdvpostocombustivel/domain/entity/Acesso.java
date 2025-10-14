@@ -1,12 +1,11 @@
 package com.br.pdvpostocombustivel.domain.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import com.br.pdvpostocombustivel.enums.TipoAcesso;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "acesso")
@@ -24,13 +23,19 @@ public class Acesso {
     @Column(length = 15, nullable = false)
     private String senha;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_acesso", nullable = false, length = 30)
+    private TipoAcesso tipoAcesso;
+
     //contrutor
     public Acesso() {
     }
     
-    public Acesso(String usuario, String senha) {
+    public Acesso(String usuario, String senha, TipoAcesso tipoAcesso) {
         this.usuario = usuario;
         this.senha =senha;
+        this.tipoAcesso = tipoAcesso;
     }
 
     //getters
@@ -44,6 +49,9 @@ public class Acesso {
     public String getUsuario() {
         return usuario;
     }
+    public TipoAcesso getTipoAcesso() {
+        return tipoAcesso;
+    }
 
     //setters
     public void setSenha(String senha) {
@@ -51,5 +59,8 @@ public class Acesso {
     }
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+    public void setTipoAcesso(TipoAcesso tipoAcesso) {
+        this.tipoAcesso = tipoAcesso;
     }
 }
