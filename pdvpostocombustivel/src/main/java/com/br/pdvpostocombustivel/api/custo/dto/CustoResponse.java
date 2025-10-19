@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 
 public record CustoResponse(
-        Double imposto,
-        Double custoVariavel,
-        Double custoFixo,
-        Double margemLucro,
+        double imposto,
+        double custoVariavel,
+        double custoFixo,
+        double margemLucro,
         LocalDate dataProcessamento
 ) {
 }

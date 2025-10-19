@@ -5,13 +5,13 @@ import com.br.pdvpostocombustivel.api.acesso.dto.AcessoRequest;
 import com.br.pdvpostocombustivel.api.acesso.dto.AcessoResponse;
 import com.br.pdvpostocombustivel.domain.entity.Acesso;
 import com.br.pdvpostocombustivel.domain.repository.AcessoRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -30,7 +30,7 @@ public class AcessoService {
     }
 
     // READ by ID - validar a utilização desse método
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public AcessoResponse getById(Long id) {
         Acesso p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Acesso não encontrado. id=" + id));
@@ -38,7 +38,7 @@ public class AcessoService {
     }
 
     // READ by Usuario
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public AcessoResponse getByUsuario(String usuario) {
         Acesso p = repository.findByUsuario(usuario)
                 .orElseThrow(() -> new IllegalArgumentException("Acesso não encontrado. usuario=" + usuario));
@@ -46,7 +46,7 @@ public class AcessoService {
     }
 
     // LIST paginado
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public Page<AcessoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
@@ -115,5 +115,3 @@ public class AcessoService {
         );
     }
 }
-
-

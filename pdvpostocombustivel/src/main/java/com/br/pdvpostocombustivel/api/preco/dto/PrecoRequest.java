@@ -1,5 +1,6 @@
 package com.br.pdvpostocombustivel.api.preco.dto;
 
+import com.br.pdvpostocombustivel.enums.TipoPreco;
 import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +12,7 @@ public record PrecoRequest(
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         LocalDate dataAlteracao,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate horaAlteracao
+        LocalDate horaAlteracao,
+        TipoPreco tipoPreco
 ) {
 }

@@ -4,13 +4,13 @@ import com.br.pdvpostocombustivel.api.contato.dto.ContatoRequest;
 import com.br.pdvpostocombustivel.api.contato.dto.ContatoResponse;
 import com.br.pdvpostocombustivel.domain.entity.Contato;
 import com.br.pdvpostocombustivel.domain.repository.ContatoRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -29,7 +29,7 @@ public class ContatoService {
     }
 
     // READ by ID - validar a utilização desse método
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public ContatoResponse getById(Long id) {
         Contato p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Contato não encontrado. id=" + id));
@@ -37,7 +37,7 @@ public class ContatoService {
     }
 
     // READ by Email
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public ContatoResponse getByEmail(String email) {
         Contato p = repository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Contato não encontrado. email=" + email));
@@ -45,7 +45,7 @@ public class ContatoService {
     }
 
     // LIST paginado
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public Page<ContatoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);

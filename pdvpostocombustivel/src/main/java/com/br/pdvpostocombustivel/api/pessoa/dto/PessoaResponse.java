@@ -8,6 +8,6 @@ import java.time.LocalDate;
 public record PessoaResponse(
         String nomeCompleto,
         String cpfCnpj,
-        Long numeroCtps,
+        long numeroCtps,
         LocalDate dataNascimento
 ){}

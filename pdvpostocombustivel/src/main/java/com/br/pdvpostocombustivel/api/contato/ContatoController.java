@@ -30,7 +30,7 @@ public class ContatoController {
     }
 
     @GetMapping(params = "email")
-    public ContatoResponse getByCpf(@RequestParam String email) {
+    public ContatoResponse getByEmail(@RequestParam String email) {
         return service.getByEmail(email);
     }
 

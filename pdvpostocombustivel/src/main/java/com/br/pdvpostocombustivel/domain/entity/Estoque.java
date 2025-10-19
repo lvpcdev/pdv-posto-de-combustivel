@@ -1,10 +1,7 @@
 package com.br.pdvpostocombustivel.domain.entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.br.pdvpostocombustivel.enums.TipoEstoque;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -34,16 +31,22 @@ public class Estoque {
     @Column(length = 10, nullable = false)
     private LocalDate dataValidade;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_estoque", nullable = false, length = 15)
+    private TipoEstoque tipoEstoque;
+
     //construtor
     public Estoque() {
     }
     
-    public  Estoque(BigDecimal quantidade, String localTanque, String localEndereco, String loteFabricacao,LocalDate dataValidade) {
+    public  Estoque(BigDecimal quantidade, String localTanque, String localEndereco, String loteFabricacao,LocalDate dataValidade, TipoEstoque tipoEstoque) {
         this.quantidade = quantidade;
         this.localTanque = localTanque;
         this.localEndereco = localEndereco;
         this.loteFabricacao = loteFabricacao;
         this.dataValidade = dataValidade;
+        this.tipoEstoque = tipoEstoque;
     }
 
     //getters
@@ -66,6 +69,9 @@ public class Estoque {
     public LocalDate getDataValidade(){
         return dataValidade;
     }
+    public TipoEstoque getTipoEstoque() {
+        return tipoEstoque;
+    }
 
     //setters
     public void setDataValidade(LocalDate dataValidade) {
@@ -83,5 +89,7 @@ public class Estoque {
     public void setQuantidade(BigDecimal quantidade) {
         this.quantidade = quantidade;
     }
-
+    public void setTipoEstoque(TipoEstoque tipoEstoque) {
+        this.tipoEstoque = tipoEstoque;
+    }
 }
