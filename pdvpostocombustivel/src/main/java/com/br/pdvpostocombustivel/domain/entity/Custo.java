@@ -1,10 +1,8 @@
 package com.br.pdvpostocombustivel.domain.entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import com.br.pdvpostocombustivel.enums.TipoCusto;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -33,16 +31,21 @@ public class Custo {
     @Column(length = 10, nullable = false)
     private LocalDate dataProcessamento;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_custo", nullable = false, length = 30)
+    private TipoCusto tipoCusto;
     //construtor
     public Custo() {
     }
     
-    public Custo(Double imposto, Double custoVariavel, Double custoFixo, Double margemLucro, LocalDate dataProcessamento) {
+    public Custo(Double imposto, Double custoVariavel, Double custoFixo, Double margemLucro, LocalDate dataProcessamento, TipoCusto tipoCusto) {
         this.imposto = imposto;
         this.custoVariavel = custoVariavel;
         this.custoFixo = custoFixo;
         this.margemLucro = margemLucro;
         this.dataProcessamento = dataProcessamento;
+        this.tipoCusto = tipoCusto;
     }
 
     //getters
@@ -65,10 +68,13 @@ public class Custo {
     public Double getMargemLucro() {
         return margemLucro;
     }
+    public TipoCusto getTipoCusto() {
+        return tipoCusto;
+    }
 
     //setters
     public void setCustoFixo(Double custoFixo) {
-
+        this.custoFixo = custoFixo;
     }
     public void setCustoVariavel(Double custoVariavel) {
         this.custoVariavel = custoVariavel;
@@ -81,5 +87,8 @@ public class Custo {
     }
     public void setMargemLucro(Double margemLucro) {
         this.margemLucro = margemLucro;
+    }
+    public void setTipoCusto(TipoCusto tipoCusto) {
+        this.tipoCusto = tipoCusto;
     }
 }
