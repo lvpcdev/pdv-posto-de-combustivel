@@ -86,9 +86,11 @@ public class PrecoService {
 
     private PrecoResponse toResponse(Preco p) {
         return new PrecoResponse(
+                p.getId(),
                 p.getDataAlteracao(),
                 p.getHoraAlteracao(),
-                p.getValor()
+                p.getValor(),
+                null // Token não disponível neste contexto de conversão de entidade
         );
     }
 }

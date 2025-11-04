@@ -121,11 +121,13 @@ public class EstoqueService {
 
     private EstoqueResponse toResponse(Estoque e) {
         return new EstoqueResponse(
+                e.getId(),
                 e.getQuantidade(),
                 e.getLocalTanque(),
                 e.getLocalEndereco(),
                 e.getLoteFabricacao(),
-                e.getDataValidade()
+                e.getDataValidade(),
+                null // Token não disponível neste contexto de conversão de entidade
         );
     }
 }

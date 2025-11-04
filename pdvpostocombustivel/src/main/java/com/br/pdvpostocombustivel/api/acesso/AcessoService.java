@@ -5,6 +5,7 @@ import com.br.pdvpostocombustivel.api.acesso.dto.AcessoRequest;
 import com.br.pdvpostocombustivel.api.acesso.dto.AcessoResponse;
 import com.br.pdvpostocombustivel.domain.entity.Acesso;
 import com.br.pdvpostocombustivel.domain.repository.AcessoRepository;
+import com.br.pdvpostocombustivel.exception.AcessoException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,28 @@ public class AcessoService {
     public AcessoResponse create(AcessoRequest req) {
         Acesso novoAcesso = toEntity(req);
         return toResponse(repository.save(novoAcesso));
+    }
+
+    // LOGIN
+    @Transactional(readOnly = true)
+    public AcessoResponse login(AcessoRequest req) {
+        Acesso acesso = repository.findByUsuario(req.usuario())
+                .orElseThrow(() -> new AcessoException("Usuário ou senha inválidos."));
+
+        if (!acesso.getSenha().equals(req.senha())) {
+            throw new AcessoException("Usuário ou senha inválidos.");
+        }
+        // TODO: Gerar o token JWT real aqui
+        // Por enquanto, um token de exemplo. Você precisará integrar sua lógica de JWT aqui.
+        String generatedToken = "dummy-jwt-token-for-" + acesso.getUsuario();
+
+        return new AcessoResponse(
+                acesso.getId(),
+                acesso.getUsuario(),
+                acesso.getSenha(), // Considere não expor a senha na resposta em um ambiente de produção
+                acesso.getTipoAcesso(),
+                generatedToken
+        );
     }
 
     // READ by ID - validar a utilização desse método
@@ -110,8 +133,11 @@ public class AcessoService {
 
     private AcessoResponse toResponse(Acesso p) {
         return new AcessoResponse(
+                p.getId(),
                 p.getUsuario(),
-                p.getSenha()
+                p.getSenha(),
+                p.getTipoAcesso(),
+                null // Token não disponível neste contexto de conversão de entidade
         );
     }
 }

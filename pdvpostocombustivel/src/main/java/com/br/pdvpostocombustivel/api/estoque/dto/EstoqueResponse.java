@@ -6,10 +6,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record EstoqueResponse(
+        Long id,
         BigDecimal quantidade,
         String localTannque,
         String localEndereco,
         String localFabricacao,
-        LocalDate dataValidade
+        LocalDate dataValidade,
+        String token
 ) {
 }

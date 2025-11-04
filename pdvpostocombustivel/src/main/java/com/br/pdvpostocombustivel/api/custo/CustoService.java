@@ -123,11 +123,13 @@ public class CustoService {
 
     private CustoResponse toResponse(Custo c) {
         return new CustoResponse(
+                c.getId(),
                 c.getImposto(),
                 c.getCustoVariavel(),
                 c.getCustoFixo(),
                 c.getMargemLucro(),
-                c.getDataProcessamento()
+                c.getDataProcessamento(),
+                null // Token não disponível neste contexto de conversão de entidade
         );
     }
 }

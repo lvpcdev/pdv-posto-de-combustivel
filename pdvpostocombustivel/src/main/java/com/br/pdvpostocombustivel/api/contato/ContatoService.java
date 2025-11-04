@@ -111,9 +111,11 @@ public class ContatoService {
 
     private ContatoResponse toResponse(Contato p) {
         return new ContatoResponse(
+                p.getId(),
                 p.getTelefone(),
                 p.getEmail(),
-                p.getEndereco()
+                p.getEndereco(),
+                null // Token não disponível neste contexto de conversão de entidade
         );
     }
 }

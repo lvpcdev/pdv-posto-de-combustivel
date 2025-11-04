@@ -23,6 +23,11 @@ public class AcessoController {
         return service.create(req);
     }
 
+    @PostMapping("/login")
+    public AcessoResponse login(@RequestBody AcessoRequest req) {
+        return service.login(req);
+    }
+
     @GetMapping("/{id}")
     public AcessoResponse get(@PathVariable Long id) {
         return service.getById(id);
