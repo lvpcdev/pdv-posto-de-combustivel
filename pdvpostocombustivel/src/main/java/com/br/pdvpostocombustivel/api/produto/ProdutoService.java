@@ -66,6 +66,7 @@ public class ProdutoService {
         p.setFornecedor(req.fornecedor());
         p.setMarca(req.marca());
         p.setCategoria(req.categoria());
+        p.setTipoProduto(req.tipoProduto());
 
         return toResponse(repository.save(p));
     }
@@ -85,6 +86,7 @@ public class ProdutoService {
         if (req.fornecedor() != null) p.setFornecedor(req.fornecedor());
         if (req.marca() != null) p.setMarca(req.marca());
         if (req.categoria() != null) p.setCategoria(req.categoria());
+        if (req.tipoProduto() != null) p.setTipoProduto(req.tipoProduto());
 
         return toResponse(repository.save(p));
     }
@@ -107,17 +109,18 @@ public class ProdutoService {
     }
 
     private Produto toEntity(ProdutoRequest req) {
-        // O campo 'tipoProduto' do DTO é ignorado pois não existe na entidade Produto.
         return new Produto(
                 req.nome(),
                 req.referencia(),
                 req.fornecedor(),
                 req.marca(),
-                req.categoria()
+                req.categoria(),
+                req.tipoProduto()
         );
     }
 
     private ProdutoResponse toResponse(Produto p) {
+        System.out.println("DEBUG: Produto ID no backend: " + p.getId() + ", Nome: " + p.getNome());
         return new ProdutoResponse(
                 p.getId(),
                 p.getNome(),
@@ -125,7 +128,7 @@ public class ProdutoService {
                 p.getFornecedor(),
                 p.getMarca(),
                 p.getCategoria(),
-                null // Token não disponível neste contexto de conversão de entidade
+                p.getTipoProduto()
         );
     }
 }

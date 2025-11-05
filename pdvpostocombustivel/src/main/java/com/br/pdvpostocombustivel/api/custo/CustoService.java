@@ -129,7 +129,7 @@ public class CustoService {
                 c.getCustoFixo(),
                 c.getMargemLucro(),
                 c.getDataProcessamento(),
-                null // Token não disponível neste contexto de conversão de entidade
+                c.getTipoCusto()
         );
     }
 }

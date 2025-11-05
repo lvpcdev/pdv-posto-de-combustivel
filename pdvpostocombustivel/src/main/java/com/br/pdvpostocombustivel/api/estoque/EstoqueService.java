@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @Service
 @Transactional
 public class EstoqueService {
@@ -63,11 +65,11 @@ public class EstoqueService {
         }
 
         e.setQuantidade(req.quantidade());
-        e.setLocalTanque(req.localTannque()); // DTO com typo "Tannque"
+        e.setLocalTanque(req.localTanque());
         e.setLocalEndereco(req.localEndereco());
-        e.setLoteFabricacao(req.localFabricacao()); // DTO com nome "localFabricacao"
+        e.setLoteFabricacao(req.localFabricacao());
         e.setDataValidade(req.dataValidade());
-        // O campo tipoEstoque não pode ser atualizado pois não vem no Request DTO.
+        e.setTipoEstoque(req.tipoEstoque());
 
         return toResponse(repository.save(e));
     }
@@ -78,7 +80,7 @@ public class EstoqueService {
                 .orElseThrow(() -> new IllegalArgumentException("Estoque não encontrado. id=" + id));
 
         if (req.quantidade() != null) e.setQuantidade(req.quantidade());
-        if (req.localTannque() != null) e.setLocalTanque(req.localTannque());
+        if (req.localTanque() != null) e.setLocalTanque(req.localTanque());
         if (req.localEndereco() != null) e.setLocalEndereco(req.localEndereco());
         if (req.localFabricacao() != null) {
             if (!req.localFabricacao().equals(e.getLoteFabricacao())) {
@@ -87,6 +89,7 @@ public class EstoqueService {
             e.setLoteFabricacao(req.localFabricacao());
         }
         if (req.dataValidade() != null) e.setDataValidade(req.dataValidade());
+        if (req.tipoEstoque() != null) e.setTipoEstoque(req.tipoEstoque());
 
         return toResponse(repository.save(e));
     }
@@ -111,11 +114,11 @@ public class EstoqueService {
     private Estoque toEntity(EstoqueRequest req) {
         Estoque e = new Estoque();
         e.setQuantidade(req.quantidade());
-        e.setLocalTanque(req.localTannque()); // DTO com typo "Tannque"
+        e.setLocalTanque(req.localTanque());
         e.setLocalEndereco(req.localEndereco());
         e.setLoteFabricacao(req.localFabricacao());
         e.setDataValidade(req.dataValidade());
-        e.setTipoEstoque(null);
+        e.setTipoEstoque(req.tipoEstoque());
         return e;
     }
 
@@ -127,7 +130,7 @@ public class EstoqueService {
                 e.getLocalEndereco(),
                 e.getLoteFabricacao(),
                 e.getDataValidade(),
-                null // Token não disponível neste contexto de conversão de entidade
+                e.getTipoEstoque()
         );
     }
 }

@@ -11,7 +11,6 @@ public record PrecoRequest(
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         LocalDate dataAlteracao,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate horaAlteracao,
-        TipoPreco tipoPreco
+        LocalDate horaAlteracao
 ) {
 }

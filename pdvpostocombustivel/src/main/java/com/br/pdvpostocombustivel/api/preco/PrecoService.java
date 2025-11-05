@@ -49,7 +49,7 @@ public class PrecoService {
 
         p.setValor(req.valor());
         p.setDataAlteracao(req.dataAlteracao());
-        p.setHoraAlteracao(req.horaAlteracao()); // O campo na entidade é LocalDate, o que é semanticamente incorreto para hora.
+        p.setHoraAlteracao(req.horaAlteracao());
 
         return toResponse(repository.save(p));
     }
@@ -89,8 +89,7 @@ public class PrecoService {
                 p.getId(),
                 p.getDataAlteracao(),
                 p.getHoraAlteracao(),
-                p.getValor(),
-                null // Token não disponível neste contexto de conversão de entidade
+                p.getValor()
         );
     }
 }

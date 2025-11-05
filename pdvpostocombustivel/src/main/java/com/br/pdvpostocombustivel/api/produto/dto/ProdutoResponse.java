@@ -1,5 +1,7 @@
 package com.br.pdvpostocombustivel.api.produto.dto;
 
+import com.br.pdvpostocombustivel.enums.TipoProduto;
+
 public record ProdutoResponse(
         Long id,
         String nome,
@@ -7,6 +9,6 @@ public record ProdutoResponse(
         String fornecedor,
         String marca,
         String categoria,
-        String token
+        TipoProduto tipoProduto
 ) {
 }

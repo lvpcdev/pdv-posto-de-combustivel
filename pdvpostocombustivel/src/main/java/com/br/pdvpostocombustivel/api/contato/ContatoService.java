@@ -115,7 +115,7 @@ public class ContatoService {
                 p.getTelefone(),
                 p.getEmail(),
                 p.getEndereco(),
-                null // Token não disponível neste contexto de conversão de entidade
+                p.getTipoContato()
         );
     }
 }

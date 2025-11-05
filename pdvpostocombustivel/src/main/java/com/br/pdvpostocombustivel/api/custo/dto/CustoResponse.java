@@ -1,5 +1,7 @@
 package com.br.pdvpostocombustivel.api.custo.dto;
 
+import com.br.pdvpostocombustivel.enums.TipoCusto;
+
 import java.time.LocalDate;
 
 
@@ -10,6 +12,6 @@ public record CustoResponse(
         double custoFixo,
         double margemLucro,
         LocalDate dataProcessamento,
-        String token
+        TipoCusto tipoCusto
 ) {
 }

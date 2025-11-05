@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public record EstoqueRequest(
         BigDecimal quantidade,
-        String localTannque,
+        String localTanque,
         String localEndereco,
         String localFabricacao,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

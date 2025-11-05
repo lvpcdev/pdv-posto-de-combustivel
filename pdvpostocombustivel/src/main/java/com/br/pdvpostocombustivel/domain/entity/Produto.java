@@ -1,7 +1,10 @@
 package com.br.pdvpostocombustivel.domain.entity;
 
+import com.br.pdvpostocombustivel.enums.TipoProduto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,16 +34,21 @@ public class Produto {
     @Column(length = 30, nullable = false)
     private String categoria;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoProduto tipoProduto;
+
     //construtor
     public Produto() {
     }
     
-    public Produto(String nome, String referencia, String fornecedor, String marca, String categoria) {
+    public Produto(String nome, String referencia, String fornecedor, String marca, String categoria, TipoProduto tipoProduto) {
         this.nome = nome;
         this.referencia = referencia;
         this.fornecedor = fornecedor;
         this.marca = marca;
         this.categoria = categoria;
+        this.tipoProduto = tipoProduto;
     }
 
     //getters
@@ -63,6 +71,9 @@ public class Produto {
     public String getReferencia() {
         return referencia;
     }
+    public TipoProduto getTipoProduto() {
+        return tipoProduto;
+    }
 
     //setters
     public void setCategoria(String categoria) {
@@ -79,5 +90,8 @@ public class Produto {
     }
     public void setReferencia(String referencia) {
         this.referencia = referencia;
+    }
+    public void setTipoProduto(TipoProduto tipoProduto) {
+        this.tipoProduto = tipoProduto;
     }
 }

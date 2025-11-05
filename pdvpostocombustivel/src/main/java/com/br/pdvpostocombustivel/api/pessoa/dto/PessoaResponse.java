@@ -11,5 +11,5 @@ public record PessoaResponse(
         String cpfCnpj,
         long numeroCtps,
         LocalDate dataNascimento,
-        String token
+        TipoPessoa tipoPessoa
 ){}

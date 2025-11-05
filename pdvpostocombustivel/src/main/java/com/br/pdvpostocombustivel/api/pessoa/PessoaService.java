@@ -120,7 +120,7 @@ public class PessoaService {
                 p.getCpfCnpj(),
                 p.getNumeroCtps(),
                 p.getDataNascimento(),
-                null // Token não disponível neste contexto de conversão de entidade
+                p.getTipoPessoa()
         );
     }
 }

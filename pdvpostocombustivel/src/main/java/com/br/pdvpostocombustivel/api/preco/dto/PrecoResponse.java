@@ -7,8 +7,7 @@ public record PrecoResponse(
         Long id,
         LocalDate dataAlteracao,
         LocalDate horaAlteracao,
-        BigDecimal valor,
-        String token
+        BigDecimal valor
 ) {
 
 }
