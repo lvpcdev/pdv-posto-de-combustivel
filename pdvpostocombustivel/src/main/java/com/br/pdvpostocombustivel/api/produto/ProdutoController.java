@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/produtos")
 public class ProdutoController {
@@ -39,6 +41,11 @@ public class ProdutoController {
                                      @RequestParam(defaultValue = "id") String sortBy,
                                      @RequestParam(defaultValue = "ASC") Sort.Direction dir) {
         return service.list(page, size, sortBy, dir);
+    }
+
+    @GetMapping("/all")
+    public List<ProdutoResponse> getAll() {
+        return service.getAll();
     }
 
     @PutMapping("/{id}")

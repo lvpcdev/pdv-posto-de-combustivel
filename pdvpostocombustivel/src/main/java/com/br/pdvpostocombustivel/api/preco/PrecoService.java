@@ -3,7 +3,9 @@ package com.br.pdvpostocombustivel.api.preco;
 import com.br.pdvpostocombustivel.api.preco.dto.PrecoRequest;
 import com.br.pdvpostocombustivel.api.preco.dto.PrecoResponse;
 import com.br.pdvpostocombustivel.domain.entity.Preco;
+import com.br.pdvpostocombustivel.domain.entity.Produto;
 import com.br.pdvpostocombustivel.domain.repository.PrecoRepository;
+import com.br.pdvpostocombustivel.domain.repository.ProdutoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PrecoService {
 
     private final PrecoRepository repository;
+    private final ProdutoRepository produtoRepository;
 
-    public PrecoService(PrecoRepository repository) {
+    public PrecoService(PrecoRepository repository, ProdutoRepository produtoRepository) {
         this.repository = repository;
+        this.produtoRepository = produtoRepository;
     }
 
     // CREATE
@@ -50,6 +54,11 @@ public class PrecoService {
         p.setValor(req.valor());
         p.setDataAlteracao(req.dataAlteracao());
         p.setHoraAlteracao(req.horaAlteracao());
+        if (req.produtoId() != null) {
+            Produto produto = produtoRepository.findById(req.produtoId())
+                    .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + req.produtoId()));
+            p.setProduto(produto);
+        }
 
         return toResponse(repository.save(p));
     }
@@ -62,6 +71,11 @@ public class PrecoService {
         if (req.valor() != null) p.setValor(req.valor());
         if (req.dataAlteracao() != null) p.setDataAlteracao(req.dataAlteracao());
         if (req.horaAlteracao() != null) p.setHoraAlteracao(req.horaAlteracao());
+        if (req.produtoId() != null) {
+            Produto produto = produtoRepository.findById(req.produtoId())
+                    .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + req.produtoId()));
+            p.setProduto(produto);
+        }
 
         return toResponse(repository.save(p));
     }
@@ -77,10 +91,14 @@ public class PrecoService {
     // ---------- Helpers ----------
 
     private Preco toEntity(PrecoRequest req) {
+        Produto produto = produtoRepository.findById(req.produtoId())
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + req.produtoId()));
+
         return new Preco(
                 req.valor(),
                 req.dataAlteracao(),
-                req.horaAlteracao()
+                req.horaAlteracao(),
+                produto
         );
     }
 
@@ -89,7 +107,8 @@ public class PrecoService {
                 p.getId(),
                 p.getDataAlteracao(),
                 p.getHoraAlteracao(),
-                p.getValor()
+                p.getValor(),
+                p.getProduto().getId()
         );
     }
 }

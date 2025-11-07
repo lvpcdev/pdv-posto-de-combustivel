@@ -7,7 +7,7 @@ public record PrecoResponse(
         Long id,
         LocalDate dataAlteracao,
         LocalDate horaAlteracao,
-        BigDecimal valor
+        BigDecimal valor,
+        Long produtoId
 ) {
-
 }

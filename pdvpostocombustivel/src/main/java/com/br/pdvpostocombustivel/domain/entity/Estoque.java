@@ -36,17 +36,22 @@ public class Estoque {
     @Column(name = "tipo_estoque", nullable = false, length = 15)
     private TipoEstoque tipoEstoque;
 
+    @ManyToOne
+    @JoinColumn(name = "produto_id", nullable = false)
+    private Produto produto;
+
     //construtor
     public Estoque() {
     }
     
-    public  Estoque(BigDecimal quantidade, String localTanque, String localEndereco, String loteFabricacao,LocalDate dataValidade, TipoEstoque tipoEstoque) {
+    public  Estoque(BigDecimal quantidade, String localTanque, String localEndereco, String loteFabricacao,LocalDate dataValidade, TipoEstoque tipoEstoque, Produto produto) {
         this.quantidade = quantidade;
         this.localTanque = localTanque;
         this.localEndereco = localEndereco;
         this.loteFabricacao = loteFabricacao;
         this.dataValidade = dataValidade;
         this.tipoEstoque = tipoEstoque;
+        this.produto = produto;
     }
 
     //getters
@@ -72,6 +77,9 @@ public class Estoque {
     public TipoEstoque getTipoEstoque() {
         return tipoEstoque;
     }
+    public Produto getProduto() {
+        return produto;
+    }
 
     //setters
     public void setDataValidade(LocalDate dataValidade) {
@@ -91,5 +99,8 @@ public class Estoque {
     }
     public void setTipoEstoque(TipoEstoque tipoEstoque) {
         this.tipoEstoque = tipoEstoque;
+    }
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 }

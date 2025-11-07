@@ -10,10 +10,11 @@ public record EstoqueRequest(
         BigDecimal quantidade,
         String localTanque,
         String localEndereco,
-        String localFabricacao,
+        String loteFabricacao,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         LocalDate dataValidade,
-        TipoEstoque tipoEstoque
+        TipoEstoque tipoEstoque,
+        Long produtoId
 
         ) {
 }

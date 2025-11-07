@@ -3,7 +3,9 @@ package com.br.pdvpostocombustivel.api.estoque;
 import com.br.pdvpostocombustivel.api.estoque.dto.EstoqueRequest;
 import com.br.pdvpostocombustivel.api.estoque.dto.EstoqueResponse;
 import com.br.pdvpostocombustivel.domain.entity.Estoque;
+import com.br.pdvpostocombustivel.domain.entity.Produto;
 import com.br.pdvpostocombustivel.domain.repository.EstoqueRepository;
+import com.br.pdvpostocombustivel.domain.repository.ProdutoRepository;
 import com.br.pdvpostocombustivel.enums.TipoEstoque;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -20,14 +22,16 @@ import java.math.BigDecimal;
 public class EstoqueService {
 
     private final EstoqueRepository repository;
+    private final ProdutoRepository produtoRepository;
 
-    public EstoqueService(EstoqueRepository repository) {
+    public EstoqueService(EstoqueRepository repository, ProdutoRepository produtoRepository) {
         this.repository = repository;
+        this.produtoRepository = produtoRepository;
     }
 
     // CREATE
     public EstoqueResponse create(EstoqueRequest req) {
-        validarUnicidadeLoteFabricacao(req.localFabricacao(), null);
+        validarUnicidadeLoteFabricacao(req.loteFabricacao(), null);
         Estoque novoEstoque = toEntity(req);
         return toResponse(repository.save(novoEstoque));
     }
@@ -60,16 +64,21 @@ public class EstoqueService {
         Estoque e = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Estoque não encontrado. id=" + id));
 
-        if (req.localFabricacao() != null && !req.localFabricacao().equals(e.getLoteFabricacao())) {
-            validarUnicidadeLoteFabricacao(req.localFabricacao(), id);
+        if (req.loteFabricacao() != null && !req.loteFabricacao().equals(e.getLoteFabricacao())) {
+            validarUnicidadeLoteFabricacao(req.loteFabricacao(), id);
         }
 
         e.setQuantidade(req.quantidade());
         e.setLocalTanque(req.localTanque());
         e.setLocalEndereco(req.localEndereco());
-        e.setLoteFabricacao(req.localFabricacao());
+        e.setLoteFabricacao(req.loteFabricacao());
         e.setDataValidade(req.dataValidade());
         e.setTipoEstoque(req.tipoEstoque());
+        if (req.produtoId() != null) {
+            Produto produto = produtoRepository.findById(req.produtoId())
+                    .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + req.produtoId()));
+            e.setProduto(produto);
+        }
 
         return toResponse(repository.save(e));
     }
@@ -82,14 +91,19 @@ public class EstoqueService {
         if (req.quantidade() != null) e.setQuantidade(req.quantidade());
         if (req.localTanque() != null) e.setLocalTanque(req.localTanque());
         if (req.localEndereco() != null) e.setLocalEndereco(req.localEndereco());
-        if (req.localFabricacao() != null) {
-            if (!req.localFabricacao().equals(e.getLoteFabricacao())) {
-                validarUnicidadeLoteFabricacao(req.localFabricacao(), id);
+        if (req.loteFabricacao() != null) {
+            if (!req.loteFabricacao().equals(e.getLoteFabricacao())) {
+                validarUnicidadeLoteFabricacao(req.loteFabricacao(), id);
             }
-            e.setLoteFabricacao(req.localFabricacao());
+            e.setLoteFabricacao(req.loteFabricacao());
         }
         if (req.dataValidade() != null) e.setDataValidade(req.dataValidade());
         if (req.tipoEstoque() != null) e.setTipoEstoque(req.tipoEstoque());
+        if (req.produtoId() != null) {
+            Produto produto = produtoRepository.findById(req.produtoId())
+                    .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + req.produtoId()));
+            e.setProduto(produto);
+        }
 
         return toResponse(repository.save(e));
     }
@@ -112,14 +126,18 @@ public class EstoqueService {
     }
 
     private Estoque toEntity(EstoqueRequest req) {
-        Estoque e = new Estoque();
-        e.setQuantidade(req.quantidade());
-        e.setLocalTanque(req.localTanque());
-        e.setLocalEndereco(req.localEndereco());
-        e.setLoteFabricacao(req.localFabricacao());
-        e.setDataValidade(req.dataValidade());
-        e.setTipoEstoque(req.tipoEstoque());
-        return e;
+        Produto produto = produtoRepository.findById(req.produtoId())
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + req.produtoId()));
+
+        return new Estoque(
+                req.quantidade(),
+                req.localTanque(),
+                req.localEndereco(),
+                req.loteFabricacao(),
+                req.dataValidade(),
+                req.tipoEstoque(),
+                produto
+        );
     }
 
     private EstoqueResponse toResponse(Estoque e) {
@@ -130,7 +148,8 @@ public class EstoqueService {
                 e.getLocalEndereco(),
                 e.getLoteFabricacao(),
                 e.getDataValidade(),
-                e.getTipoEstoque()
+                e.getTipoEstoque(),
+                e.getProduto().getId()
         );
     }
 }

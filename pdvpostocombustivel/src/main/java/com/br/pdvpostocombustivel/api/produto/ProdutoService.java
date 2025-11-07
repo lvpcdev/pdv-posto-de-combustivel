@@ -1,5 +1,6 @@
 package com.br.pdvpostocombustivel.api.produto;
 
+import com.br.pdvpostocombustivel.api.preco.dto.PrecoResponse;
 import com.br.pdvpostocombustivel.api.produto.dto.ProdutoRequest;
 import com.br.pdvpostocombustivel.api.produto.dto.ProdutoResponse;
 import com.br.pdvpostocombustivel.domain.entity.Produto;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -50,6 +54,14 @@ public class ProdutoService {
     public Page<ProdutoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
+    }
+
+    // GET ALL
+    @Transactional(readOnly = true)
+    public List<ProdutoResponse> getAll() {
+        return repository.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     // UPDATE - substitui todos os campos
@@ -120,7 +132,10 @@ public class ProdutoService {
     }
 
     private ProdutoResponse toResponse(Produto p) {
-        System.out.println("DEBUG: Produto ID no backend: " + p.getId() + ", Nome: " + p.getNome());
+        List<PrecoResponse> precos = p.getPrecos().stream()
+                .map(preco -> new PrecoResponse(preco.getId(), preco.getDataAlteracao(), preco.getHoraAlteracao(), preco.getValor(), preco.getProduto().getId()))
+                .collect(Collectors.toList());
+
         return new ProdutoResponse(
                 p.getId(),
                 p.getNome(),
@@ -128,7 +143,8 @@ public class ProdutoService {
                 p.getFornecedor(),
                 p.getMarca(),
                 p.getCategoria(),
-                p.getTipoProduto()
+                p.getTipoProduto(),
+                precos
         );
     }
 }
