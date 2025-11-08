@@ -4,6 +4,7 @@ import com.br.pdvpostocombustivel.domain.entity.Bomba;
 import com.br.pdvpostocombustivel.domain.repository.BombaRepository;
 import com.br.pdvpostocombustivel.enums.BombaStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class BombaService {
     private BombaRepository bombaRepository;
 
     public List<Bomba> buscarTodas() {
-        return bombaRepository.findAll();
+        return bombaRepository.findAll(Sort.by(Sort.Direction.ASC, "nome"));
     }
 
     public Bomba atualizarStatus(Long id, BombaStatus status) {

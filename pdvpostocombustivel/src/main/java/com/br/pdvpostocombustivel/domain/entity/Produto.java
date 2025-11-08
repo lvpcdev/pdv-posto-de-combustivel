@@ -23,7 +23,7 @@ public class Produto {
     private Long id;
 
     //atributos
-    @Column(length = 20, nullable = false)
+    @Column(length = 100, nullable = false)
     private String nome;
 
     @Column(length = 500, nullable = false)
