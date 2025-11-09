@@ -3,7 +3,9 @@ package com.br.pdvpostocombustivel.api.contato;
 import com.br.pdvpostocombustivel.api.contato.dto.ContatoRequest;
 import com.br.pdvpostocombustivel.api.contato.dto.ContatoResponse;
 import com.br.pdvpostocombustivel.domain.entity.Contato;
+import com.br.pdvpostocombustivel.domain.entity.Pessoa;
 import com.br.pdvpostocombustivel.domain.repository.ContatoRepository;
+import com.br.pdvpostocombustivel.domain.repository.PessoaRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,23 +14,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @Transactional
 public class ContatoService {
     private final ContatoRepository repository;
+    private final PessoaRepository pessoaRepository;
 
-    public ContatoService(ContatoRepository repository) {
+    public ContatoService(ContatoRepository repository, PessoaRepository pessoaRepository) {
         this.repository = repository;
+        this.pessoaRepository = pessoaRepository;
     }
 
-    // CREATE
     public ContatoResponse create(ContatoRequest req) {
         Contato novoContato = toEntity(req);
         return toResponse(repository.save(novoContato));
     }
 
-    // READ by ID - validar a utilização desse método
     @Transactional(readOnly = true)
     public ContatoResponse getById(Long id) {
         Contato p = repository.findById(id)
@@ -36,7 +37,6 @@ public class ContatoService {
         return toResponse(p);
     }
 
-    // READ by Email
     @Transactional(readOnly = true)
     public ContatoResponse getByEmail(String email) {
         Contato p = repository.findByEmail(email)
@@ -44,14 +44,12 @@ public class ContatoService {
         return toResponse(p);
     }
 
-    // LIST paginado
     @Transactional(readOnly = true)
     public Page<ContatoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
     }
 
-    // UPDATE  - substitui todos os campos
     public ContatoResponse update(Long id, ContatoRequest req) {
         Contato p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Contato não encontrado. id=" + id));
@@ -60,14 +58,11 @@ public class ContatoService {
             validarUnicidadeEmail(req.email(), id);
         }
 
-        p.setTelefone(req.telefone());
-        p.setEmail(req.email());
-        p.setEndereco(req.endereco());
+        updateEntityFromRequest(p, req);
 
         return toResponse(repository.save(p));
     }
 
-    // PATCH - atualiza apenas campos não nulos
     public ContatoResponse patch(Long id, ContatoRequest req) {
         Contato p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Contato não encontrado. id=" + id));
@@ -79,11 +74,18 @@ public class ContatoService {
             }
             p.setEmail(req.email());
         }
+        if (req.pessoaId() != null) {
+            Pessoa pessoa = pessoaRepository.findById(req.pessoaId())
+                    .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. id=" + req.pessoaId()));
+            p.setPessoa(pessoa);
+        }
+        if (req.telefone() != null) p.setTelefone(req.telefone());
+        if (req.tipoContato() != null) p.setTipoContato(req.tipoContato());
+
 
         return toResponse(repository.save(p));
     }
 
-    // DELETE
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Contato não encontrado. id=" + id);
@@ -91,7 +93,6 @@ public class ContatoService {
         repository.deleteById(id);
     }
 
-    // ---------- Helpers ----------
     private void validarUnicidadeEmail(String email, Long idAtual) {
         repository.findByEmail(email).ifPresent(existente -> {
             if (idAtual == null || !existente.getId().equals(idAtual)) {
@@ -101,12 +102,25 @@ public class ContatoService {
     }
 
     private Contato toEntity(ContatoRequest req) {
+        Pessoa pessoa = pessoaRepository.findById(req.pessoaId())
+                .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. id=" + req.pessoaId()));
         return new Contato(
+                pessoa,
                 req.telefone(),
                 req.email(),
                 req.endereco(),
                 req.tipoContato()
         );
+    }
+
+    private void updateEntityFromRequest(Contato contato, ContatoRequest request) {
+        Pessoa pessoa = pessoaRepository.findById(request.pessoaId())
+                .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. id=" + request.pessoaId()));
+        contato.setPessoa(pessoa);
+        contato.setTelefone(request.telefone());
+        contato.setEmail(request.email());
+        contato.setEndereco(request.endereco());
+        contato.setTipoContato(request.tipoContato());
     }
 
     private ContatoResponse toResponse(Contato p) {
@@ -115,7 +129,8 @@ public class ContatoService {
                 p.getTelefone(),
                 p.getEmail(),
                 p.getEndereco(),
-                p.getTipoContato()
+                p.getTipoContato(),
+                p.getPessoa() != null ? p.getPessoa().getId() : null
         );
     }
 }

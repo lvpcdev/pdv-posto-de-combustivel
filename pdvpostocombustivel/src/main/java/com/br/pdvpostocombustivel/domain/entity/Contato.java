@@ -1,6 +1,5 @@
 package com.br.pdvpostocombustivel.domain.entity;
 
-import com.br.pdvpostocombustivel.enums.TipoAcesso;
 import com.br.pdvpostocombustivel.enums.TipoContato;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +12,9 @@ public class Contato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //atributos
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id")
+    private Pessoa pessoa;
 
     @Column(length = 14, nullable = false)
     private String telefone;
@@ -29,46 +30,57 @@ public class Contato {
     @Column(name = "tipo_contato", nullable = false, length = 30)
     private TipoContato tipoContato;
 
-
-    //construtor
     public Contato() {
     }
 
-    public Contato(String telefone, String email, String endereco, TipoContato tipoContato) {
+    public Contato(Pessoa pessoa, String telefone, String email, String endereco, TipoContato tipoContato) {
+        this.pessoa = pessoa;
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
         this.tipoContato = tipoContato;
     }
 
-    //getters
     public Long getId() {
         return id;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
     public String getTelefone() {
         return telefone;
     }
+
     public String getEmail() {
         return email;
     }
+
     public String getEndereco() {
         return endereco;
     }
+
     public TipoContato getTipoContato() {
         return tipoContato;
     }
 
-    //setters
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
+
     public void setTipoContato(TipoContato tipoContato) {
         this.tipoContato = tipoContato;
     }

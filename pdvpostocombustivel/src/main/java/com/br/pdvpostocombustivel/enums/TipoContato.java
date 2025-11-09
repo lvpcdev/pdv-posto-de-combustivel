@@ -1,9 +1,9 @@
 package com.br.pdvpostocombustivel.enums;
 
 public enum TipoContato {
-    TELEFONE("Contato Telefone"),
-    CELULAR("Contato Celular"),
-    EMAIL("Contato e-mail");
+    CLIENTE("Contato Cliente"),
+    FORNECEDOR("Contato Fornecedor"),
+    FUNCIONARIO("Contato Funcionário");
 
     private final String descricao;
 
