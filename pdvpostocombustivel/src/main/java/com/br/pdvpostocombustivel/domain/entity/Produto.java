@@ -22,7 +22,6 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //atributos
     @Column(length = 100, nullable = false)
     private String nome;
 
@@ -48,7 +47,6 @@ public class Produto {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Preco> precos = new ArrayList<>();
 
-    //construtor
     public Produto() {
     }
     
@@ -61,7 +59,6 @@ public class Produto {
         this.tipoProduto = tipoProduto;
     }
 
-    //getters
     public Long getId() {
         return id;
     }
@@ -91,7 +88,6 @@ public class Produto {
         return precos;
     }
 
-    //setters
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }

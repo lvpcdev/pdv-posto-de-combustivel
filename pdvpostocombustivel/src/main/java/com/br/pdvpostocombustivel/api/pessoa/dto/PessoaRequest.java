@@ -5,7 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-// Para Entrada
 public record PessoaRequest(
         String nomeCompleto,
         String cpfCnpj,

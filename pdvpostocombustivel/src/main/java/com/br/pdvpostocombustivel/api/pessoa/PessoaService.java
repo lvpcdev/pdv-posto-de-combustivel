@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PessoaService {
 
-    // implementa a interface repository de pessoa
     private final PessoaRepository repository;
 
 
@@ -22,13 +21,11 @@ public class PessoaService {
         this.repository = repository;
     }
 
-    // CREATE
     public PessoaResponse create(PessoaRequest req) {
         Pessoa novaPessoa = toEntity(req);
         return toResponse(repository.save(novaPessoa));
     }
 
-    // READ by ID - validar a utilização desse método
     @Transactional(readOnly = true)
     public PessoaResponse getById(Long id) {
         Pessoa p = repository.findById(id)
@@ -36,7 +33,6 @@ public class PessoaService {
         return toResponse(p);
     }
 
-    // READ by CPF/CNPJ
     @Transactional(readOnly = true)
     public PessoaResponse getByCpfCnpj(String cpfCnpj) {
         Pessoa p = repository.findByCpfCnpj(cpfCnpj)
@@ -44,14 +40,12 @@ public class PessoaService {
         return toResponse(p);
     }
 
-    // LIST paginado
     @Transactional(readOnly = true)
     public Page<PessoaResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
     }
 
-    // UPDATE  - substitui todos os campos
     public PessoaResponse update(Long id, PessoaRequest req) {
         Pessoa p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. id=" + id));
@@ -68,7 +62,6 @@ public class PessoaService {
         return toResponse(repository.save(p));
     }
 
-    // PATCH - atualiza apenas campos não nulos
     public PessoaResponse patch(Long id, PessoaRequest req) {
         Pessoa p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. id=" + id));
@@ -86,7 +79,6 @@ public class PessoaService {
         return toResponse(repository.save(p));
     }
 
-    // DELETE
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Pessoa não encontrada. id=" + id);
@@ -94,7 +86,6 @@ public class PessoaService {
         repository.deleteById(id);
     }
 
-    // ---------- Helpers ----------
     private void validarUnicidadeCpfCnpj(String cpfCnpj, Long idAtual) {
         repository.findByCpfCnpj(cpfCnpj).ifPresent(existente -> {
             if (idAtual == null || !existente.getId().equals(idAtual)) {

@@ -20,7 +20,6 @@ public class Preco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //atributos
     @Column(length = 10, nullable = false)
     private BigDecimal valor;
 
@@ -34,7 +33,6 @@ public class Preco {
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
-    //construtor
     public Preco() {
     }
     
@@ -45,7 +43,6 @@ public class Preco {
         this.produto = produto;
     }
 
-    //getters
     public Long getId() {
         return id;
     }
@@ -63,7 +60,6 @@ public class Preco {
         return produto;
     }
 
-    //setters
     public void setDataAlteracao(LocalDate dataAlteracao) {
         this.dataAlteracao = dataAlteracao;
     }

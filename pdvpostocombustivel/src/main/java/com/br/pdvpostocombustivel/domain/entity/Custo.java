@@ -14,8 +14,6 @@ public class Custo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //atributos
-
     @Column(length = 5, nullable = false)
     private Double imposto;
 
@@ -35,7 +33,6 @@ public class Custo {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_custo", nullable = false, length = 30)
     private TipoCusto tipoCusto;
-    //construtor
     public Custo() {
     }
     
@@ -48,7 +45,6 @@ public class Custo {
         this.tipoCusto = tipoCusto;
     }
 
-    //getters
     public Long getId() {
         return id;
     }
@@ -72,7 +68,6 @@ public class Custo {
         return tipoCusto;
     }
 
-    //setters
     public void setCustoFixo(Double custoFixo) {
         this.custoFixo = custoFixo;
     }

@@ -15,15 +15,10 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Verifica se a tabela de bombas está vazia
         if (bombaRepository.count() == 0) {
-            System.out.println("Populando o banco de dados com as bombas iniciais...");
             bombaRepository.save(new Bomba("B1", BombaStatus.INATIVA));
             bombaRepository.save(new Bomba("B2", BombaStatus.INATIVA));
             bombaRepository.save(new Bomba("B3", BombaStatus.INATIVA));
-            System.out.println("Banco de dados populado. Total de bombas: " + bombaRepository.count());
-        } else {
-            System.out.println("O banco de dados já contém dados de bombas. Nenhuma ação necessária.");
         }
     }
 }

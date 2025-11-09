@@ -26,14 +26,12 @@ public class ProdutoService {
         this.repository = repository;
     }
 
-    // CREATE
     public ProdutoResponse create(ProdutoRequest req) {
         validarUnicidadeReferencia(req.referencia(), null);
         Produto novoProduto = toEntity(req);
         return toResponse(repository.save(novoProduto));
     }
 
-    // READ by ID
     @Transactional(readOnly = true)
     public ProdutoResponse getById(Long id) {
         Produto p = repository.findById(id)
@@ -41,7 +39,6 @@ public class ProdutoService {
         return toResponse(p);
     }
 
-    // READ by Referencia
     @Transactional(readOnly = true)
     public ProdutoResponse getByReferencia(String referencia) {
         Produto p = repository.findByReferencia(referencia)
@@ -49,14 +46,12 @@ public class ProdutoService {
         return toResponse(p);
     }
 
-    // LIST paginado
     @Transactional(readOnly = true)
     public Page<ProdutoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
     }
 
-    // GET ALL
     @Transactional(readOnly = true)
     public List<ProdutoResponse> getAll() {
         return repository.findAll().stream()
@@ -64,7 +59,6 @@ public class ProdutoService {
                 .collect(Collectors.toList());
     }
 
-    // UPDATE - substitui todos os campos
     public ProdutoResponse update(Long id, ProdutoRequest req) {
         Produto p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + id));
@@ -83,7 +77,6 @@ public class ProdutoService {
         return toResponse(repository.save(p));
     }
 
-    // PATCH - atualiza apenas campos não nulos
     public ProdutoResponse patch(Long id, ProdutoRequest req) {
         Produto p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado. id=" + id));
@@ -103,7 +96,6 @@ public class ProdutoService {
         return toResponse(repository.save(p));
     }
 
-    // DELETE
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Produto não encontrado. id=" + id);
@@ -111,7 +103,6 @@ public class ProdutoService {
         repository.deleteById(id);
     }
 
-    // ---------- Helpers ----------
     private void validarUnicidadeReferencia(String referencia, Long idAtual) {
         repository.findByReferencia(referencia).ifPresent(existente -> {
             if (idAtual == null || !existente.getId().equals(idAtual)) {

@@ -18,10 +18,6 @@ public class BombaController {
     @GetMapping
     public List<Bomba> buscarTodas() {
         List<Bomba> bombas = bombaService.buscarTodas();
-        System.out.println("====== [BACKEND LOG] ======");
-        System.out.println("Endpoint /api/v1/bombas foi chamado.");
-        System.out.println("Número de bombas encontradas no banco: " + (bombas != null ? bombas.size() : "null"));
-        System.out.println("=========================");
         return bombas;
     }
 

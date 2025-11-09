@@ -1,7 +1,5 @@
 package com.br.pdvpostocombustivel;
 
-
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -14,7 +12,7 @@ public class TempLoginTest {
     public static void main(String[] args) {
         try {
             String url = "http://localhost:8080/api/v1/acessos/login";
-            String jsonInputString = "{\"usuario\": \"lucas\", \"senha\": \"123\"}"; // <-- SUBSTITUA AQUI
+            String jsonInputString = "{\"usuario\": \"lucas\", \"senha\": \"123\"}";
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();

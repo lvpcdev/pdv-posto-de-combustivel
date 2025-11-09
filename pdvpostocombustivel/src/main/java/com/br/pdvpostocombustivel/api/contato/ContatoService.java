@@ -76,7 +76,7 @@ public class ContatoService {
         }
         if (req.pessoaId() != null) {
             Pessoa pessoa = pessoaRepository.findById(req.pessoaId())
-                    .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada. id=" + req.pessoaId()));
+                    .orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrado. id=" + req.pessoaId()));
             p.setPessoa(pessoa);
         }
         if (req.telefone() != null) p.setTelefone(req.telefone());

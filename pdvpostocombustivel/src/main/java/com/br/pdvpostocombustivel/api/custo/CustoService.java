@@ -24,14 +24,12 @@ public class CustoService {
         this.repository = repository;
     }
 
-    // CREATE
     public CustoResponse create(CustoRequest req) {
         validarUnicidadeDataProcessamento(req.dataProcessamento(), null);
         Custo novoCusto = toEntity(req);
         return toResponse(repository.save(novoCusto));
     }
 
-    // READ by ID
     @Transactional(readOnly = true)
     public CustoResponse getById(Long id) {
         Custo c = repository.findById(id)
@@ -39,7 +37,6 @@ public class CustoService {
         return toResponse(c);
     }
 
-    // READ by Data de Processamento
     @Transactional(readOnly = true)
     public CustoResponse getByDataProcessamento(LocalDate dataProcessamento) {
         Custo c = repository.findByDataProcessamento(dataProcessamento)
@@ -47,14 +44,12 @@ public class CustoService {
         return toResponse(c);
     }
 
-    // LIST paginado
     @Transactional(readOnly = true)
     public Page<CustoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
     }
 
-    // UPDATE - substitui todos os campos
     public CustoResponse update(Long id, CustoRequest req) {
         Custo c = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Custo não encontrado. id=" + id));
@@ -73,7 +68,6 @@ public class CustoService {
         return toResponse(repository.save(c));
     }
 
-    // PATCH - atualiza apenas campos não nulos
     public CustoResponse patch(Long id, CustoRequest req) {
         Custo c = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Custo não encontrado. id=" + id));
@@ -93,7 +87,6 @@ public class CustoService {
         return toResponse(repository.save(c));
     }
 
-    // DELETE
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Custo não encontrado. id=" + id);
@@ -101,7 +94,6 @@ public class CustoService {
         repository.deleteById(id);
     }
 
-    // ---------- Helpers ----------
     private void validarUnicidadeDataProcessamento(LocalDate dataProcessamento, Long idAtual) {
         repository.findByDataProcessamento(dataProcessamento).ifPresent(existente -> {
             if (idAtual == null || !existente.getId().equals(idAtual)) {

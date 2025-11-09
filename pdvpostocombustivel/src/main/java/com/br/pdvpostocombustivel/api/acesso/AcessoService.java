@@ -24,13 +24,11 @@ public class AcessoService {
         this.repository = repository;
     }
 
-    // CREATE
     public AcessoResponse create(AcessoRequest req) {
         Acesso novoAcesso = toEntity(req);
         return toResponse(repository.save(novoAcesso));
     }
 
-    // LOGIN
     @Transactional(readOnly = true)
     public AcessoResponse login(AcessoRequest req) {
         Acesso acesso = repository.findByUsuario(req.usuario())
@@ -39,20 +37,17 @@ public class AcessoService {
         if (!acesso.getSenha().equals(req.senha())) {
             throw new AcessoException("Usuário ou senha inválidos.");
         }
-        // TODO: Gerar o token JWT real aqui
-        // Por enquanto, um token de exemplo. Você precisará integrar sua lógica de JWT aqui.
         String generatedToken = "dummy-jwt-token-for-" + acesso.getUsuario();
 
         return new AcessoResponse(
                 acesso.getId(),
                 acesso.getUsuario(),
-                acesso.getSenha(), // Considere não expor a senha na resposta em um ambiente de produção
+                acesso.getSenha(),
                 acesso.getTipoAcesso(),
                 generatedToken
         );
     }
 
-    // READ by ID - validar a utilização desse método
     @Transactional(readOnly = true)
     public AcessoResponse getById(Long id) {
         Acesso p = repository.findById(id)
@@ -60,7 +55,6 @@ public class AcessoService {
         return toResponse(p);
     }
 
-    // READ by Usuario
     @Transactional(readOnly = true)
     public AcessoResponse getByUsuario(String usuario) {
         Acesso p = repository.findByUsuario(usuario)
@@ -68,14 +62,12 @@ public class AcessoService {
         return toResponse(p);
     }
 
-    // LIST paginado
     @Transactional(readOnly = true)
     public Page<AcessoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
     }
 
-    // UPDATE  - substitui todos os campos
     public AcessoResponse update(Long id, AcessoRequest req) {
         Acesso p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Acesso não encontrado. id=" + id));
@@ -90,7 +82,6 @@ public class AcessoService {
         return toResponse(repository.save(p));
     }
 
-    // PATCH - atualiza apenas campos não nulos
     public AcessoResponse patch(Long id, AcessoRequest req) {
         Acesso p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Acesso não encontrado. id=" + id));
@@ -106,7 +97,6 @@ public class AcessoService {
         return toResponse(repository.save(p));
     }
 
-    // DELETE
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Acesso não encontrado. id=" + id);
@@ -114,7 +104,6 @@ public class AcessoService {
         repository.deleteById(id);
     }
 
-    // ---------- Helpers ----------
     private void validarUnicidadeUsuario(String usuario, Long idAtual) {
         repository.findByUsuario(usuario).ifPresent(existente -> {
             if (idAtual == null || !existente.getId().equals(idAtual)) {
@@ -137,7 +126,7 @@ public class AcessoService {
                 p.getUsuario(),
                 p.getSenha(),
                 p.getTipoAcesso(),
-                null // Token não disponível neste contexto de conversão de entidade
+                null
         );
     }
 }

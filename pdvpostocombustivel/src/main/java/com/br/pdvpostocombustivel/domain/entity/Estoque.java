@@ -14,8 +14,6 @@ public class Estoque {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //atributos
-
     @Column(length = 10, nullable = false)
     private BigDecimal quantidade;
 
@@ -40,7 +38,6 @@ public class Estoque {
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
-    //construtor
     public Estoque() {
     }
     
@@ -54,7 +51,6 @@ public class Estoque {
         this.produto = produto;
     }
 
-    //getters
     public Long getId() {
         return id;
     }
@@ -81,7 +77,6 @@ public class Estoque {
         return produto;
     }
 
-    //setters
     public void setDataValidade(LocalDate dataValidade) {
         this.dataValidade = dataValidade;
     }

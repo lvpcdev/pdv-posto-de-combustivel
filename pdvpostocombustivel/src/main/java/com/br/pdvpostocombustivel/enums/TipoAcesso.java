@@ -8,7 +8,6 @@ public enum TipoAcesso {
 
     private  final String descricao;
 
-    // isso é para o usuario poderr visualizar a descrição do tipo e não igual a maquina vê
     private TipoAcesso(String descricao) {
         this.descricao = descricao;
     }

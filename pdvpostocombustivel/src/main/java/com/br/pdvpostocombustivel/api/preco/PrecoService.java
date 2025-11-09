@@ -25,13 +25,11 @@ public class PrecoService {
         this.produtoRepository = produtoRepository;
     }
 
-    // CREATE
     public PrecoResponse create(PrecoRequest req) {
         Preco novoPreco = toEntity(req);
         return toResponse(repository.save(novoPreco));
     }
 
-    // READ by ID
     @Transactional(readOnly = true)
     public PrecoResponse getById(Long id) {
         Preco p = repository.findById(id)
@@ -39,14 +37,12 @@ public class PrecoService {
         return toResponse(p);
     }
 
-    // LIST paginado
     @Transactional(readOnly = true)
     public Page<PrecoResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
     }
 
-    // UPDATE - substitui todos os campos
     public PrecoResponse update(Long id, PrecoRequest req) {
         Preco p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Preço não encontrado. id=" + id));
@@ -63,7 +59,6 @@ public class PrecoService {
         return toResponse(repository.save(p));
     }
 
-    // PATCH - atualiza apenas campos não nulos
     public PrecoResponse patch(Long id, PrecoRequest req) {
         Preco p = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Preço não encontrado. id=" + id));
@@ -80,15 +75,12 @@ public class PrecoService {
         return toResponse(repository.save(p));
     }
 
-    // DELETE
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Preço não encontrado. id=" + id);
         }
         repository.deleteById(id);
     }
-
-    // ---------- Helpers ----------
 
     private Preco toEntity(PrecoRequest req) {
         Produto produto = produtoRepository.findById(req.produtoId())

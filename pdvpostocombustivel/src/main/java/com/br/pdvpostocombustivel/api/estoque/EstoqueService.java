@@ -29,14 +29,12 @@ public class EstoqueService {
         this.produtoRepository = produtoRepository;
     }
 
-    // CREATE
     public EstoqueResponse create(EstoqueRequest req) {
         validarUnicidadeLoteFabricacao(req.loteFabricacao(), null);
         Estoque novoEstoque = toEntity(req);
         return toResponse(repository.save(novoEstoque));
     }
 
-    // READ by ID
     @Transactional(readOnly = true)
     public EstoqueResponse getById(Long id) {
         Estoque e = repository.findById(id)
@@ -44,7 +42,6 @@ public class EstoqueService {
         return toResponse(e);
     }
 
-    // READ by Lote de Fabricação
     @Transactional(readOnly = true)
     public EstoqueResponse getByLoteFabricacao(String loteFabricacao) {
         Estoque e = repository.findByLoteFabricacao(loteFabricacao)
@@ -52,14 +49,12 @@ public class EstoqueService {
         return toResponse(e);
     }
 
-    // LIST paginado
     @Transactional(readOnly = true)
     public Page<EstoqueResponse> list(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
         return repository.findAll(pageable).map(this::toResponse);
     }
 
-    // UPDATE - substitui todos os campos
     public EstoqueResponse update(Long id, EstoqueRequest req) {
         Estoque e = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Estoque não encontrado. id=" + id));
@@ -83,7 +78,6 @@ public class EstoqueService {
         return toResponse(repository.save(e));
     }
 
-    // PATCH - atualiza apenas campos não nulos
     public EstoqueResponse patch(Long id, EstoqueRequest req) {
         Estoque e = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Estoque não encontrado. id=" + id));
@@ -108,7 +102,6 @@ public class EstoqueService {
         return toResponse(repository.save(e));
     }
 
-    // DELETE
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Estoque não encontrado. id=" + id);
@@ -116,7 +109,6 @@ public class EstoqueService {
         repository.deleteById(id);
     }
 
-    // ---------- Helpers ----------
     private void validarUnicidadeLoteFabricacao(String loteFabricacao, Long idAtual) {
         repository.findByLoteFabricacao(loteFabricacao).ifPresent(existente -> {
             if (idAtual == null || !existente.getId().equals(idAtual)) {

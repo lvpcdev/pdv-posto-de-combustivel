@@ -1,11 +1,8 @@
 package com.br.pdvpostocombustivel.domain.entity;
 
-
-
 import com.br.pdvpostocombustivel.enums.TipoAcesso;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 
 @Entity
 @Table(name = "acesso")
@@ -14,8 +11,6 @@ public class Acesso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    //atributos
 
     @Column(length = 30, nullable = false)
     private String usuario;
@@ -28,7 +23,6 @@ public class Acesso {
     @Column(name = "tipo_acesso", nullable = false, length = 30)
     private TipoAcesso tipoAcesso;
 
-    //contrutor
     public Acesso() {
     }
     
@@ -38,7 +32,6 @@ public class Acesso {
         this.tipoAcesso = tipoAcesso;
     }
 
-    //getters
     public Long getId() {
         return id;
     }
@@ -53,7 +46,6 @@ public class Acesso {
         return tipoAcesso;
     }
 
-    //setters
     public void setSenha(String senha) {
         this.senha = senha;
     }
